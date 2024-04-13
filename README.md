@@ -1,16 +1,12 @@
-# escape_anchovy
+## 운동일지 앱
 
-A new Flutter project.
+<b>개요</b>: 집에서 맨몸운동을 열심히 해 멸치를 탈출할 목적으로 만든 운동일지 앱입니다.<br>
+제가 쓰려고 만들었고 본인의 운동루틴을 앱에 반영했습니다.
 
-## Getting Started
+### 커밋 메시지 규칙
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+feat: 기능을 새로 구현했을 때<br>
+style: 디자인을 수정했을 떄<br>
+fix: 버그를 수정했을 때<br>
+refactor: 코드 리팩토링을 진행했을 떄<br>
+chore: 그 외
