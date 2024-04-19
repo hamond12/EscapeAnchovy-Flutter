@@ -1,4 +1,4 @@
-import 'package:escape_anchovy/res/text/styles.dart';
+import 'package:escape_anchovy/src/common/common_app_bar.dart';
 import 'package:escape_anchovy/src/screen/home/home_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: const CommonAppBar(
+        title: '메인화면',
+        isHome: true,
+      ),
       body: AnimatedBuilder(
           animation: _controller,
           builder: (context, snapshot) {
@@ -29,8 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Center(
           child: Text(
-            'ㅎㅇ',
-            style: TextStyles.h1Bold,
+            'ㅁㄴㅇㄹ',
           ),
         )
       ],
