@@ -1,4 +1,5 @@
 import 'package:escape_anchovy/src/app.dart';
+import 'package:escape_anchovy/src/util/shared_preferences_util.dart';
 import 'package:flutter/material.dart';
 
 class SettingController with ChangeNotifier {
@@ -14,6 +15,7 @@ class SettingController with ChangeNotifier {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferencesUtil.getInstance();
 
   final settingController = SettingController();
 
