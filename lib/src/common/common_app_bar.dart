@@ -1,3 +1,4 @@
+import 'package:escape_anchovy/main.dart';
 import 'package:escape_anchovy/res/text/colors.dart';
 import 'package:escape_anchovy/res/text/styles.dart';
 import 'package:escape_anchovy/src/common/common_svg.dart';
@@ -5,10 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const CommonAppBar({super.key, required this.title, this.isHome = false});
+  const CommonAppBar(
+      {super.key,
+      required this.title,
+      this.isHome = false,
+      this.settingController});
 
   final String title;
   final bool isHome;
+  final SettingController? settingController;
 
   @override
   State<CommonAppBar> createState() => _CommonAppBarState();
@@ -20,6 +26,11 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CommonAppBarState extends State<CommonAppBar> {
   @override
   Widget build(BuildContext context) {
+    if (widget.isHome) {
+      widget.settingController!.theme =
+          context.isLight ? 'light_mode' : 'dark_mode';
+    }
+
     return AppBar(
       backgroundColor: Colors.transparent,
       title: Center(
@@ -48,12 +59,23 @@ class _CommonAppBarState extends State<CommonAppBar> {
               const SizedBox(
                 width: 12,
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: context.isLight
-                    ? SvgPicture.asset('asset/svg/light_mode.svg')
-                    : SvgPicture.asset('asset/svg/dark_mode.svg'),
-              )
+              GestureDetector(
+                onTap: () {
+                  if (widget.settingController!.theme == 'light_mode') {
+                    widget.settingController!
+                        .updateThemeMode(ThemeMode.dark, 'dark_mode');
+                  } else {
+                    widget.settingController!
+                        .updateThemeMode(ThemeMode.light, 'light_mode');
+                  }
+                },
+                child: SvgPicture.asset(
+                  'asset/svg/${widget.settingController!.theme}.svg',
+                ),
+              ),
+              const SizedBox(
+                width: 16,
+              ),
             ]
           : [
               const SizedBox(

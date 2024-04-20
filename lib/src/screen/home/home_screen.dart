@@ -1,9 +1,14 @@
+import 'package:escape_anchovy/main.dart';
 import 'package:escape_anchovy/src/common/common_app_bar.dart';
 import 'package:escape_anchovy/src/screen/home/home_controller.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.settingController});
+
+  static const routeName = '/home';
+
+  final SettingController settingController;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -15,9 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBar(
+      appBar: CommonAppBar(
         title: '메인화면',
         isHome: true,
+        settingController: widget.settingController,
       ),
       body: AnimatedBuilder(
           animation: _controller,
@@ -28,11 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildPage(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
         Center(
           child: Text(
-            'ㅁㄴㅇㄹ',
+            widget.settingController.theme,
           ),
         )
       ],
