@@ -37,9 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       children: [
         Center(
-          child: Text(
-            widget.settingController.theme,
-          ),
+          child: Text(_controller.loadUserName()),
         )
       ],
     );

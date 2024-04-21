@@ -2,6 +2,7 @@ import 'package:escape_anchovy/main.dart';
 import 'package:escape_anchovy/res/theme/themes.dart';
 import 'package:escape_anchovy/src/screen/home/home_screen.dart';
 import 'package:escape_anchovy/src/screen/splash/splash_screen.dart';
+import 'package:escape_anchovy/src/screen/user_name/user_name_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatefulWidget {
@@ -41,6 +42,8 @@ class _MyAppState extends State<MyApp> {
               return const SplashScreen();
             case HomeScreen.routeName:
               return HomeScreen(settingController: widget.settingController);
+            case UserNameScreen.routeName:
+              return const UserNameScreen();
             default:
               return const Text('Error');
           }

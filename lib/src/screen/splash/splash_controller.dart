@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:escape_anchovy/src/screen/home/home_screen.dart';
+import 'package:escape_anchovy/src/screen/user_name/user_name_screen.dart';
+import 'package:escape_anchovy/src/util/shared_preferences_util.dart';
 import 'package:flutter/material.dart';
 
 class SplashController with ChangeNotifier {
@@ -56,5 +59,24 @@ class SplashController with ChangeNotifier {
       default:
         return 24;
     }
+  }
+
+  Future<bool> isNameInput() async {
+    final inputName = SharedPreferencesUtil.getBool('inputName');
+    return inputName!;
+  }
+
+  Future<void> checkInputName(BuildContext context) async {
+    await Future.delayed(const Duration(seconds: 3));
+
+    isNameInput().then((value) async {
+      if (value) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, HomeScreen.routeName, (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, UserNameScreen.routeName, (route) => false);
+      }
+    });
   }
 }
