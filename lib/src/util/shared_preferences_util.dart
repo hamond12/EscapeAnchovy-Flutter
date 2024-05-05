@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesUtil {
@@ -33,5 +35,22 @@ class SharedPreferencesUtil {
 
   static Future<bool>? setBool(String key, bool value) {
     return _prefs?.setBool(key, value);
+  }
+
+  static List<Map<String, dynamic>> getJsonList(String key) {
+    List<String>? dataList = _prefs?.getStringList(key);
+    return dataList
+            ?.map((value) => json.decode(value) as Map<String, dynamic>)
+            .toList() ??
+        [];
+  }
+
+  static Future<bool> setJsonList(String key, List<Map<String, dynamic>> list) {
+    List<String> dataList = list.map((map) => json.encode(map)).toList();
+    return _prefs!.setStringList(key, dataList);
+  }
+
+  static Future<bool> remove(String key) async {
+    return await _prefs!.remove(key);
   }
 }

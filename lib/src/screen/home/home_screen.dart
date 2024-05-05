@@ -2,6 +2,7 @@ import 'package:escape_anchovy/main.dart';
 import 'package:escape_anchovy/res/text/colors.dart';
 import 'package:escape_anchovy/res/text/styles.dart';
 import 'package:escape_anchovy/src/common/common_app_bar.dart';
+import 'package:escape_anchovy/src/common/common_button.dart';
 import 'package:escape_anchovy/src/common/common_outline_button.dart';
 import 'package:escape_anchovy/src/screen/home/dialog/explain_dialog.dart';
 import 'package:escape_anchovy/src/screen/home/home_controller.dart';
@@ -21,6 +22,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _controller = HomeController();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.initDataList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,38 +194,151 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Center(
-                    child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    SvgPicture.asset(
-                      'asset/svg/no_data.svg',
-                      colorFilter: ColorFilter.mode(
-                          context.isLight
-                              ? LightModeColors.dark3
-                              : DarkModeColors.dark3,
-                          BlendMode.srcIn),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      '운동기록이 없습니다',
-                      style: TextStyles.b2Medium.copyWith(
-                          color: context.isLight
-                              ? LightModeColors.dark3
-                              : DarkModeColors.dark3),
-                    ),
-                    Text(
-                      '운동시작을 눌러 일지를 작성해보세요',
-                      style: TextStyles.b4Regular.copyWith(
-                          color: context.isLight
-                              ? const Color(0XFFADA8B0)
-                              : const Color(0XFF8A848D)),
-                    ),
-                  ],
-                ))
+                  child: _controller.dataList.isEmpty
+                      ? Column(
+                          children: [
+                            const SizedBox(
+                              height: 18,
+                            ),
+                            SvgPicture.asset(
+                              'asset/svg/no_data.svg',
+                              colorFilter: ColorFilter.mode(
+                                  context.isLight
+                                      ? LightModeColors.dark3
+                                      : DarkModeColors.dark3,
+                                  BlendMode.srcIn),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              '운동기록이 없습니다',
+                              style: TextStyles.b2Medium.copyWith(
+                                  color: context.isLight
+                                      ? LightModeColors.dark3
+                                      : DarkModeColors.dark3),
+                            ),
+                            Text(
+                              '운동시작을 눌러 일지를 작성해보세요',
+                              style: TextStyles.b4Regular.copyWith(
+                                  color: context.isLight
+                                      ? const Color(0XFFADA8B0)
+                                      : const Color(0XFF8A848D)),
+                            ),
+                          ],
+                        )
+                      : SizedBox(
+                          height: _controller.returnListViewHeight(),
+                          child: ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                final data = _controller.dataList.length > 3
+                                    ? _controller.dataList[
+                                        index + _controller.dataList.length - 3]
+                                    : _controller.dataList[index];
+
+                                int sum1 = (data['ex1'][0] +
+                                    data['ex1'][1] +
+                                    data['ex1'][2]);
+
+                                int sum2 = data['ex2'][0] +
+                                    data['ex2'][1] +
+                                    data['ex2'][2];
+
+                                return ListTile(
+                                  contentPadding:
+                                      const EdgeInsets.only(left: 2),
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${data['day']}일차',
+                                            style: TextStyles.b3Medium,
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 2,
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${data['ex1_name']}',
+                                            style: TextStyles.b4Medium,
+                                          ),
+                                          const SizedBox(
+                                            width: 8,
+                                          ),
+                                          Text(
+                                            '${data['ex1'].join('  ')}',
+                                            style: TextStyles.b4Regular,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            '($sum1개)',
+                                            style: TextStyles.b4Regular
+                                                .copyWith(
+                                                    color: context.isLight
+                                                        ? LightModeColors.dark3
+                                                        : DarkModeColors.dark3),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${data['ex2_name']}',
+                                            style: TextStyles.b4Medium,
+                                          ),
+                                          const SizedBox(
+                                            width: 8,
+                                          ),
+                                          Text(
+                                            '${data['ex2'].join('  ')}',
+                                            style: TextStyles.b4Regular,
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            '($sum2개)',
+                                            style: TextStyles.b4Regular
+                                                .copyWith(
+                                                    color: context.isLight
+                                                        ? LightModeColors.dark3
+                                                        : DarkModeColors.dark3),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return const Column(
+                                  children: [
+                                    Divider(
+                                      color: Color(0xFFEAEAEA),
+                                      height: 4,
+                                    )
+                                  ],
+                                );
+                              },
+                              itemCount: _controller.dataList.length > 3
+                                  ? 3
+                                  : _controller.dataList.length),
+                        ),
+                )
               ],
             ),
           ),
@@ -297,6 +417,31 @@ class _HomeScreenState extends State<HomeScreen> {
                             : DarkModeColors.dark2),
                   )
                 ])),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CommonButton(
+                      width: 140,
+                      text: '데이터 추가',
+                      onPressed: () {
+                        _controller.addData({
+                          'day': _controller.dataList.length + 1,
+                          'ex1_name': '풀업',
+                          'ex2_name': '푸쉬업',
+                          'ex1': [10, 10, 10],
+                          'ex2': [10, 10, 10]
+                        });
+                      },
+                    ),
+                    CommonButton(
+                      width: 140,
+                      text: '데이터 삭제',
+                      onPressed: () {
+                        _controller.deleteData();
+                      },
+                    )
+                  ],
+                )
               ],
             ),
           ),
