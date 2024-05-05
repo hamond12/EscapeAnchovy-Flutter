@@ -3,6 +3,7 @@ import 'package:escape_anchovy/res/text/colors.dart';
 import 'package:escape_anchovy/res/text/styles.dart';
 import 'package:escape_anchovy/src/common/common_app_bar.dart';
 import 'package:escape_anchovy/src/common/common_outline_button.dart';
+import 'package:escape_anchovy/src/screen/home/dialog/explain_dialog.dart';
 import 'package:escape_anchovy/src/screen/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -69,7 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: 4,
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            ExplainDialog.showBottomSheet(context);
+                          },
                           child: Text(
                             '(자세한 설명 보기)',
                             style: TextStyles.b3Regular.copyWith(
@@ -184,39 +187,38 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Center(
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      SvgPicture.asset(
-                        'asset/svg/no_data.svg',
-                        colorFilter: ColorFilter.mode(
-                            context.isLight
-                                ? LightModeColors.dark3
-                                : DarkModeColors.dark3,
-                            BlendMode.srcIn),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        '운동기록이 없습니다',
-                        style: TextStyles.b2Medium.copyWith(
-                            color: context.isLight
-                                ? LightModeColors.dark3
-                                : DarkModeColors.dark3),
-                      ),
-                      Text(
-                        '운동시작을 눌러 일지를 작성해보세요',
-                        style: TextStyles.b4Regular.copyWith(
-                            color: context.isLight
-                                ? const Color(0XFFADA8B0)
-                                : const Color(0XFF8A848D)),
-                      ),
-                    ],
-                  ),
-                )
+                    child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    SvgPicture.asset(
+                      'asset/svg/no_data.svg',
+                      colorFilter: ColorFilter.mode(
+                          context.isLight
+                              ? LightModeColors.dark3
+                              : DarkModeColors.dark3,
+                          BlendMode.srcIn),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      '운동기록이 없습니다',
+                      style: TextStyles.b2Medium.copyWith(
+                          color: context.isLight
+                              ? LightModeColors.dark3
+                              : DarkModeColors.dark3),
+                    ),
+                    Text(
+                      '운동시작을 눌러 일지를 작성해보세요',
+                      style: TextStyles.b4Regular.copyWith(
+                          color: context.isLight
+                              ? const Color(0XFFADA8B0)
+                              : const Color(0XFF8A848D)),
+                    ),
+                  ],
+                ))
               ],
             ),
           ),
