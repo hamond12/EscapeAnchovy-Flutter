@@ -6,6 +6,7 @@ import 'package:escape_anchovy/src/common/common_button.dart';
 import 'package:escape_anchovy/src/common/common_outline_button.dart';
 import 'package:escape_anchovy/src/screen/home/dialog/explain_dialog.dart';
 import 'package:escape_anchovy/src/screen/home/home_controller.dart';
+import 'package:escape_anchovy/src/screen/note/note_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -172,9 +173,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     CommonOutlineButton(
                       width: 65,
                       height: 18,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, NoteScreen.routeName);
+                      },
                       text: '전체 일지 확인',
-                      textStyle: TextStyles.caption2.copyWith(height: 0.01),
+                      textStyle: TextStyles.caption2.copyWith(height: 0.01)
                     )
                   ],
                 ),
@@ -428,8 +431,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           'day': _controller.dataList.length + 1,
                           'ex1_name': '풀업',
                           'ex2_name': '푸쉬업',
-                          'ex1': [10, 10, 10],
-                          'ex2': [10, 10, 10]
+                          'ex1': [11, 8, 5],
+                          'ex2': [30, 22, 12]
                         });
                       },
                     ),

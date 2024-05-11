@@ -1,6 +1,7 @@
 import 'package:escape_anchovy/main.dart';
 import 'package:escape_anchovy/res/theme/themes.dart';
 import 'package:escape_anchovy/src/screen/home/home_screen.dart';
+import 'package:escape_anchovy/src/screen/note/note_screen.dart';
 import 'package:escape_anchovy/src/screen/splash/splash_screen.dart';
 import 'package:escape_anchovy/src/screen/user_name/user_name_screen.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,8 @@ class _MyAppState extends State<MyApp> {
               return HomeScreen(settingController: widget.settingController);
             case UserNameScreen.routeName:
               return const UserNameScreen();
+            case NoteScreen.routeName:
+              return const NoteScreen();
             default:
               return const Text('Error');
           }

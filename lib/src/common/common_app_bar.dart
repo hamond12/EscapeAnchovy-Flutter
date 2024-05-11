@@ -47,12 +47,15 @@ class _CommonAppBarState extends State<CommonAppBar> {
                 fit: BoxFit.scaleDown,
               ),
             )
-          : const Padding(
-              padding: EdgeInsets.fromLTRB(14, 14, 24, 14),
-              child: CommonSvg(
-                src: 'asset/svg/back.svg',
+          : GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: const Padding(
+                padding: EdgeInsets.fromLTRB(14, 14, 24, 14),
+                child: CommonSvg(
+                  src: 'asset/svg/back.svg',
+                ),
               ),
-            ),
+          ),
       actions: widget.isHome
           ? [
               const CommonSvg(src: 'asset/svg/user_info.svg'),
