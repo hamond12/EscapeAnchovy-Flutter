@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:escape_anchovy/main.dart';
 import 'package:escape_anchovy/res/text/colors.dart';
 import 'package:escape_anchovy/res/text/styles.dart';
@@ -28,6 +30,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _controller.initDataList();
+    _controller.timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _controller.checkTimeDifference(context);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.timer.cancel();
   }
 
   @override
@@ -194,6 +205,28 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? LightModeColors.dark2
                               : DarkModeColors.dark2),
                     ),
+                     _controller.dataList.isEmpty
+                          ? const SizedBox.shrink()
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '일지 초기화까지',
+                                  style: TextStyles.caption1.copyWith(
+                                      color: context.isLight
+                                          ? LightModeColors.red
+                                          : DarkModeColors.red),
+                                ),
+                                Text(
+                                  _controller.formatDuration(_controller.noteInitTime().difference(DateTime.now())),
+                                  style: TextStyles.caption1.copyWith(
+                                      color: context.isLight
+                                          ? LightModeColors.red
+                                          : DarkModeColors.red),
+                                ),
+                              ],
+                            )
                   ],
                 ),
                 Center(
@@ -428,6 +461,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       text: '데이터 추가',
                       onPressed: () {
                         _controller.addData({
+                          'time': DateTime.now().toString(),
                           'day': _controller.dataList.length + 1,
                           'ex1_name': '풀업',
                           'ex2_name': '푸쉬업',
