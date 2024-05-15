@@ -6,6 +6,7 @@ import 'package:escape_anchovy/res/text/styles.dart';
 import 'package:escape_anchovy/src/common/common_app_bar.dart';
 import 'package:escape_anchovy/src/common/common_button.dart';
 import 'package:escape_anchovy/src/common/common_outline_button.dart';
+import 'package:escape_anchovy/src/screen/home/dialog/ex_category_dialog.dart';
 import 'package:escape_anchovy/src/screen/home/dialog/explain_dialog.dart';
 import 'package:escape_anchovy/src/screen/home/home_controller.dart';
 import 'package:escape_anchovy/src/screen/note/note_screen.dart';
@@ -30,9 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _controller.initDataList();
+
     _controller.timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _controller.checkTimeDifference(context);
     });
+    
+    _controller.initCategory();
   }
 
   @override
@@ -109,7 +113,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Center(
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(context: context, builder: (BuildContext context) => ExCategoryDialog(homeController: _controller,));
+                    },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

@@ -4,11 +4,16 @@ import 'package:escape_anchovy/src/util/shared_preferences_util.dart';
 import 'package:flutter/material.dart';
 
 class HomeController with ChangeNotifier {
+
+  // 운동기록 가져오기
+
   List<Map<String, dynamic>> dataList = [];
 
   void initDataList() {
     dataList = SharedPreferencesUtil.getJsonList('dataList');
   }
+
+  // 데이터 추가, 삭제
 
   void addData(data) {
     dataList.add(data);
@@ -23,6 +28,8 @@ class HomeController with ChangeNotifier {
 
     SharedPreferencesUtil.remove('dataList');
   }
+
+  // 리스트뷰 높이 지정
 
   double returnListViewHeight() {
     if (dataList.length == 1) {
@@ -62,5 +69,28 @@ class HomeController with ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  // 운동항목 다이얼로그 관련
+
+  late bool isSelected1; // 풀업
+  late bool isSelected2; // 친업
+  late bool isSelected3; // 푸쉬업
+  late bool isSelected4; // 너클 푸쉬업
+
+
+  void initCategory() {
+    isSelected1 = SharedPreferencesUtil.getBool('category1') ?? true;
+    isSelected2 = SharedPreferencesUtil.getBool('category2') ?? false;
+    isSelected3 = SharedPreferencesUtil.getBool('category3') ?? true;
+    isSelected4 = SharedPreferencesUtil.getBool('category4') ?? false;
+    notifyListeners();
+  }
+
+  void saveCategory(bool c1, bool c2, bool c3, bool c4)  {
+    SharedPreferencesUtil.setBool('category1', c1);
+    SharedPreferencesUtil.setBool('category2', c2);
+    SharedPreferencesUtil.setBool('category3', c3);
+    SharedPreferencesUtil.setBool('category4', c4);
   }
 }

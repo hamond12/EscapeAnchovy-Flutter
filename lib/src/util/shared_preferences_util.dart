@@ -21,16 +21,16 @@ class SharedPreferencesUtil {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  static String? getString(String key, {String? defValue = ''}) {
-    return _prefs?.getString(key) ?? defValue;
+  static String? getString(String key) {
+    return _prefs?.getString(key);
   }
 
   static Future<bool>? setString(String key, String value) {
     return _prefs?.setString(key, value);
   }
 
-  static bool? getBool(String key, {bool? defValue = false}) {
-    return _prefs?.getBool(key) ?? defValue;
+  static bool? getBool(String key) {
+    return _prefs?.getBool(key);
   }
 
   static Future<bool>? setBool(String key, bool value) {
