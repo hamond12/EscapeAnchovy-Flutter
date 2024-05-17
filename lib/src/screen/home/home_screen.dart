@@ -6,6 +6,8 @@ import 'package:escape_anchovy/res/text/styles.dart';
 import 'package:escape_anchovy/src/common/common_app_bar.dart';
 import 'package:escape_anchovy/src/common/common_button.dart';
 import 'package:escape_anchovy/src/common/common_outline_button.dart';
+import 'package:escape_anchovy/src/screen/exercise/exercise_controller.dart';
+import 'package:escape_anchovy/src/screen/exercise/exercise_screen1.dart';
 import 'package:escape_anchovy/src/screen/home/dialog/ex_category_dialog.dart';
 import 'package:escape_anchovy/src/screen/home/dialog/explain_dialog.dart';
 import 'package:escape_anchovy/src/screen/home/home_controller.dart';
@@ -14,11 +16,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.settingController});
+  const HomeScreen(
+      {super.key,
+      required this.settingController,
+      required this.homeController,
+      required this.exerciseController});
 
   static const routeName = '/home';
 
   final SettingController settingController;
+  final HomeController homeController;
+  final ExerciseController exerciseController;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -35,8 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
     _controller.timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _controller.checkTimeDifference(context);
     });
-    
-    _controller.initCategory();
+
+    widget.homeController.initCategory();
+    widget.exerciseController.initExData();
   }
 
   @override
@@ -114,7 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Center(
                   child: GestureDetector(
                     onTap: () {
-                      showDialog(context: context, builder: (BuildContext context) => ExCategoryDialog(homeController: _controller,));
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => ExCategoryDialog(
+                                homeController: widget.homeController,
+                              ));
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,7 +155,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 CommonOutlineButton(
                   width: 180,
                   height: 40,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, ExerciseScreen1.routeName);
+                  },
                   text: '운동시작',
                   textStyle: TextStyles.b1Medium,
                   borderRadius: 8,
@@ -188,14 +203,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     CommonOutlineButton(
-                      width: 65,
-                      height: 18,
-                      onPressed: () {
-                        Navigator.pushNamed(context, NoteScreen.routeName);
-                      },
-                      text: '전체 일지 확인',
-                      textStyle: TextStyles.caption2.copyWith(height: 0.01)
-                    )
+                        width: 65,
+                        height: 18,
+                        onPressed: () {
+                          Navigator.pushNamed(context, NoteScreen.routeName);
+                        },
+                        text: '전체 일지 확인',
+                        textStyle: TextStyles.caption2.copyWith(height: 0.01))
                   ],
                 ),
                 const SizedBox(
@@ -211,28 +225,30 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? LightModeColors.dark2
                               : DarkModeColors.dark2),
                     ),
-                     _controller.dataList.isEmpty
-                          ? const SizedBox.shrink()
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  '일지 초기화까지',
-                                  style: TextStyles.caption1.copyWith(
-                                      color: context.isLight
-                                          ? LightModeColors.red
-                                          : DarkModeColors.red),
-                                ),
-                                Text(
-                                  _controller.formatDuration(_controller.noteInitTime().difference(DateTime.now())),
-                                  style: TextStyles.caption1.copyWith(
-                                      color: context.isLight
-                                          ? LightModeColors.red
-                                          : DarkModeColors.red),
-                                ),
-                              ],
-                            )
+                    _controller.dataList.isEmpty
+                        ? const SizedBox.shrink()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                '일지 초기화까지',
+                                style: TextStyles.caption1.copyWith(
+                                    color: context.isLight
+                                        ? LightModeColors.red
+                                        : DarkModeColors.red),
+                              ),
+                              Text(
+                                _controller.formatDuration(_controller
+                                    .noteInitTime()
+                                    .difference(DateTime.now())),
+                                style: TextStyles.caption1.copyWith(
+                                    color: context.isLight
+                                        ? LightModeColors.red
+                                        : DarkModeColors.red),
+                              ),
+                            ],
+                          )
                   ],
                 ),
                 Center(

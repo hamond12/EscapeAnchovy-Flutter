@@ -15,7 +15,8 @@ class CommonDialog extends StatefulWidget {
       this.bodySpacing = 20,
       required this.body,
       this.buttonHeight = 42,
-      required this.onPressed});
+      required this.onPressed,
+      this.buttonText = '완료'});
 
   final double dialogPadding;
   final double dialogHeight;
@@ -27,6 +28,7 @@ class CommonDialog extends StatefulWidget {
   final Widget body;
   final double buttonHeight;
   final void Function()? onPressed;
+  final String buttonText;
 
   @override
   State<CommonDialog> createState() => _CommonDialogState();
@@ -57,6 +59,7 @@ class _CommonDialogState extends State<CommonDialog> {
                     ),
                     Text(
                       widget.explain,
+                      textAlign: TextAlign.center,
                       style: TextStyles.b4Regular.copyWith(
                           color: context.isLight
                               ? LightModeColors.dark3
@@ -69,7 +72,7 @@ class _CommonDialogState extends State<CommonDialog> {
                   ],
                 )),
                 CommonButton(
-                  text: '완료',
+                  text: widget.buttonText,
                   height: widget.buttonHeight,
                   onPressed: widget.onPressed,
                   borderRadius: const BorderRadius.only(

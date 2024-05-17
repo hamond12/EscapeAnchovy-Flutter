@@ -1,7 +1,9 @@
 import 'package:escape_anchovy/main.dart';
 import 'package:escape_anchovy/res/text/colors.dart';
 import 'package:escape_anchovy/res/text/styles.dart';
+import 'package:escape_anchovy/src/common/common_dialog.dart';
 import 'package:escape_anchovy/src/common/common_svg.dart';
+import 'package:escape_anchovy/src/screen/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -10,10 +12,12 @@ class CommonAppBar extends StatefulWidget implements PreferredSizeWidget {
       {super.key,
       required this.title,
       this.isHome = false,
+      this.isExercise = false,
       this.settingController});
 
   final String title;
   final bool isHome;
+  final bool isExercise;
   final SettingController? settingController;
 
   @override
@@ -47,15 +51,31 @@ class _CommonAppBarState extends State<CommonAppBar> {
                 fit: BoxFit.scaleDown,
               ),
             )
-          : GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: const Padding(
-                padding: EdgeInsets.fromLTRB(14, 14, 24, 14),
-                child: CommonSvg(
-                  src: 'asset/svg/back.svg',
+          : widget.isExercise
+              ? GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return homeDialog();
+                        });
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.fromLTRB(18, 12, 24, 12),
+                    child: CommonSvg(
+                      src: 'asset/svg/home.svg',
+                    ),
+                  ),
+                )
+              : GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const Padding(
+                    padding: EdgeInsets.fromLTRB(14, 14, 24, 14),
+                    child: CommonSvg(
+                      src: 'asset/svg/back.svg',
+                    ),
+                  ),
                 ),
-              ),
-          ),
       actions: widget.isHome
           ? [
               const CommonSvg(src: 'asset/svg/user_info.svg'),
@@ -86,5 +106,19 @@ class _CommonAppBarState extends State<CommonAppBar> {
               )
             ],
     );
+  }
+
+  Widget homeDialog() {
+    return CommonDialog(
+        dialogHeight: 140,
+        dialogPadding: 60,
+        title: '홈화면으로 이동',
+        titleSpacing: 18,
+        explain: '작성한 운동기록이 초기화됩니다.\n홈 화면으로 이동하시겠습니까?',
+        body: const SizedBox.shrink(),
+        buttonText: '이동',
+        buttonHeight: 38,
+        onPressed: () => Navigator.pushNamedAndRemoveUntil(
+            context, HomeScreen.routeName, (route) => false));
   }
 }

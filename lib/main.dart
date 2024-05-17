@@ -17,7 +17,5 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesUtil.getInstance();
 
-  final settingController = SettingController();
-
-  runApp(MyApp(settingController: settingController));
+  runApp(const MyApp());
 }
