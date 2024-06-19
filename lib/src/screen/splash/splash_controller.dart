@@ -62,8 +62,8 @@ class SplashController with ChangeNotifier {
   }
 
   Future<bool> isNameInput() async {
-    final inputName = SharedPreferencesUtil.getBool('inputName');
-    return inputName!;
+    final inputName = SharedPreferencesUtil.getBool('inputName')??false;
+    return inputName;
   }
 
   Future<void> checkInputName(BuildContext context) async {
